@@ -29,13 +29,13 @@ def validate_required_columns(df, required_columns):
     failed_rows = len(df) if missing_columns else 0
     status = "FAIL" if missing_columns else "PASS"
     recommendation = (
-        f"Add missing columns before training: {missing_columns}."
+        f"Tambah kolom: {missing_columns}."
         if missing_columns
-        else "All required columns are available."
+        else "Kolom lengkap."
     )
     return _result(
-        "Required columns exist",
-        f"Required columns: {', '.join(required_columns)}",
+        "Kolom wajib",
+        f"Wajib: {', '.join(required_columns)}",
         failed_rows,
         status,
         recommendation,
@@ -45,23 +45,23 @@ def validate_required_columns(df, required_columns):
 def validate_no_missing_target(df, target_column="price"):
     if target_column not in df.columns:
         return _result(
-            "Target price is not missing",
-            f"Column '{target_column}' must exist and must not contain missing values",
+            "Target price",
+            f"Kolom '{target_column}' harus ada",
             len(df),
             "FAIL",
-            "Add the target column before supervised training.",
+            "Tambah kolom target.",
         )
 
     failed_rows = df[target_column].isna().sum()
     status = "FAIL" if failed_rows > 0 else "PASS"
     recommendation = (
-        "Remove rows with missing target before training."
+        "Hapus baris null."
         if failed_rows > 0
-        else "No missing target values found."
+        else "Target valid."
     )
     return _result(
-        "Target price is not missing",
-        "Target column 'price' must not be missing",
+        "Target price",
+        "Target 'price' tidak boleh null",
         failed_rows,
         status,
         recommendation,
@@ -72,40 +72,40 @@ def validate_positive_distance(df):
     if "distance" not in df.columns:
         return _result(
             "distance > 0",
-            "Column 'distance' must exist and must be greater than 0",
+            "Kolom 'distance' harus > 0",
             len(df),
             "FAIL",
-            "Add or fix the distance column before preprocessing.",
+            "Perbaiki kolom distance.",
         )
 
     failed_rows = (df["distance"] <= 0).sum()
     status = "FAIL" if failed_rows > 0 else "PASS"
     recommendation = (
-        "Remove or investigate rows with invalid distance."
+        "Hapus distance <= 0."
         if failed_rows > 0
-        else "All distance values are positive."
+        else "Distance valid."
     )
-    return _result("distance > 0", "distance must be greater than 0", failed_rows, status, recommendation)
+    return _result("distance > 0", "distance harus > 0", failed_rows, status, recommendation)
 
 
 def validate_positive_price(df):
     if "price" not in df.columns:
         return _result(
             "price > 0",
-            "Column 'price' must exist and must be greater than 0",
+            "Kolom 'price' harus > 0",
             len(df),
             "FAIL",
-            "Add or fix the price column before training.",
+            "Perbaiki kolom price.",
         )
 
     failed_rows = (df["price"] <= 0).sum()
     status = "FAIL" if failed_rows > 0 else "PASS"
     recommendation = (
-        "Remove or investigate rows with invalid price."
+        "Hapus price <= 0."
         if failed_rows > 0
-        else "All available price values are positive."
+        else "Price valid."
     )
-    return _result("price > 0", "price must be greater than 0", failed_rows, status, recommendation)
+    return _result("price > 0", "price harus > 0", failed_rows, status, recommendation)
 
 
 def validate_no_missing_categorical_columns(df, categorical_columns):
@@ -114,11 +114,11 @@ def validate_no_missing_categorical_columns(df, categorical_columns):
         if column not in df.columns:
             results.append(
                 _result(
-                    f"{column} is not missing",
-                    f"Column '{column}' must exist and must not contain missing values",
+                    f"{column} tidak null",
+                    f"Kolom '{column}' tidak boleh null",
                     len(df),
                     "FAIL",
-                    f"Add or fix the {column} column before preprocessing.",
+                    f"Perbaiki kolom {column}.",
                 )
             )
             continue
@@ -126,14 +126,14 @@ def validate_no_missing_categorical_columns(df, categorical_columns):
         failed_rows = df[column].isna().sum()
         status = "FAIL" if failed_rows > 0 else "PASS"
         recommendation = (
-            f"Handle missing values in {column} before encoding."
+            f"Hapus null di {column}."
             if failed_rows > 0
-            else f"No missing values found in {column}."
+            else f"{column} valid."
         )
         results.append(
             _result(
-                f"{column} is not missing",
-                f"Column '{column}' must not contain missing values",
+                f"{column} tidak null",
+                f"Kolom '{column}' tidak boleh null",
                 failed_rows,
                 status,
                 recommendation,
@@ -145,24 +145,24 @@ def validate_no_missing_categorical_columns(df, categorical_columns):
 def validate_timestamp_convertible(df, timestamp_column="time_stamp"):
     if timestamp_column not in df.columns:
         return _result(
-            "time_stamp can be converted to datetime",
-            f"Column '{timestamp_column}' must exist and convert to datetime",
+            "time_stamp valid datetime",
+            f"Kolom '{timestamp_column}' harus bisa dikonversi ke datetime",
             len(df),
             "FAIL",
-            "Add or fix the timestamp column before creating time features.",
+            "Perbaiki kolom timestamp.",
         )
 
     converted = pd.to_datetime(df[timestamp_column], unit="ms", errors="coerce")
     failed_rows = converted.isna().sum()
     status = "FAIL" if failed_rows > 0 else "PASS"
     recommendation = (
-        "Drop or fix rows with invalid timestamps before feature engineering."
+        "Hapus timestamp tidak valid."
         if failed_rows > 0
-        else "All timestamps can be converted."
+        else "Timestamp valid."
     )
     return _result(
-        "time_stamp can be converted to datetime",
-        "time_stamp must convert using pd.to_datetime(unit='ms')",
+        "time_stamp valid datetime",
+        "time_stamp harus valid konversi pd.to_datetime",
         failed_rows,
         status,
         recommendation,
@@ -173,13 +173,13 @@ def validate_no_exact_duplicate_rows(df):
     failed_rows = df.duplicated().sum()
     status = "WARNING" if failed_rows > 0 else "PASS"
     recommendation = (
-        "Review duplicates and remove them if they are repeated records."
+        "Hapus baris duplikat."
         if failed_rows > 0
-        else "No exact duplicate rows found."
+        else "Tidak ada duplikat."
     )
     return _result(
-        "No exact duplicate rows",
-        "Exact duplicate rows should not appear in cleaned training data",
+        "Tidak ada baris duplikat",
+        "Data tidak boleh ada duplikat persis",
         failed_rows,
         status,
         recommendation,

@@ -21,7 +21,7 @@ from preprocessing import (
 
 
 def train_test_split_data(X, y, test_size=0.2, random_state=42):
-    """Split features and target into training and testing data."""
+    """Bagi data train/test."""
     return train_test_split(X, y, test_size=test_size, random_state=random_state)
 
 
@@ -32,7 +32,7 @@ def train_baseline_models(
     random_state=42,
     rf_sample_size=100_000,
 ):
-    """Train simple baseline regression models."""
+    """Latih model regresi."""
     model_specs = {
         "Dummy Regressor": DummyRegressor(strategy="mean"),
         "Ridge Regression": Ridge(alpha=1.0),
@@ -71,7 +71,7 @@ def train_baseline_models(
 
 
 def evaluate_model(model, X_test, y_test):
-    """Evaluate a regression model using MAE, RMSE, and R2."""
+    """Evaluasi metrik (MAE, RMSE, R2)."""
     predictions = model.predict(X_test)
     mae = mean_absolute_error(y_test, predictions)
     rmse = np.sqrt(mean_squared_error(y_test, predictions))
@@ -85,7 +85,7 @@ def evaluate_model(model, X_test, y_test):
 
 
 def save_model(model, path):
-    """Save a trained model pipeline to disk."""
+    """Simpan model."""
     output_path = Path(path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     joblib.dump(model, output_path)
@@ -128,12 +128,12 @@ def main():
     best_model = trained_models[best_model_name]
     save_model(best_model, model_path)
 
-    print("Training completed.")
-    print(f"Rows before cleaning: {rows_before_cleaning:,}")
-    print(f"Rows after cleaning: {rows_after_cleaning:,}")
-    print(f"Features used: {feature_columns}")
-    print(f"Best model: {best_model_name}")
-    print(f"Saved model path: {model_path}")
+    print("Training selesai.")
+    print(f"Baris sblm cleaning: {rows_before_cleaning:,}")
+    print(f"Baris stlh cleaning: {rows_after_cleaning:,}")
+    print(f"Fitur: {feature_columns}")
+    print(f"Model terbaik: {best_model_name}")
+    print(f"Lokasi model: {model_path}")
     print(results_df.to_string(index=False))
 
 

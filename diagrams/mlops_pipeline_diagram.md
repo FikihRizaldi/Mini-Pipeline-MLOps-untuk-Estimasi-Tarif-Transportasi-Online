@@ -1,42 +1,41 @@
-# MLOps Pipeline Diagram
+# Diagram Pipeline MLOps
 
-This Mermaid diagram shows the full mini MLOps pipeline for the online transportation fare estimation learning simulation.
+Diagram Mermaid ini menunjukkan pipeline mini MLOps secara utuh untuk simulasi pembelajaran estimasi tarif transportasi online.
 
 ```mermaid
 flowchart LR
     subgraph DataLayer["Data Layer"]
-        A["Raw Data<br/>cab_rides.csv + weather.csv"]
+        A["Data Mentah<br/>cab_rides.csv + weather.csv"]
         B["Data Audit"]
     end
 
-    subgraph CIStage["CI Stage"]
-        C["CI Data Validation"]
+    subgraph CIStage["Tahap CI"]
+        C["Validasi Data CI"]
         D["Data Cleaning"]
         E["Feature Engineering"]
         F["Preprocessing Pipeline"]
     end
 
-    subgraph CTStage["CT Stage"]
+    subgraph CTStage["Tahap CT"]
         G["Model Training"]
-        H["Model Evaluation"]
-        I["CT Quality Checklist"]
+        H["Evaluasi Model"]
+        I["Checklist Kualitas CT"]
     end
 
-    subgraph CDStage["CD Stage"]
+    subgraph CDStage["Tahap CD"]
         J["Model Registry"]
-        K["API Service"]
+        K["Layanan API"]
         L["Shadow Deployment"]
     end
 
-    subgraph MonitoringStage["Monitoring Stage"]
+    subgraph MonitoringStage["Tahap Monitoring"]
         M["Monitoring"]
-        N["Rollback or Promotion Decision"]
+        N["Keputusan Rollback/Promosi"]
     end
 
     A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K --> L --> M --> N
-    N -- "Promote if stable" --> K
-    N -- "Rollback if unstable" --> J
+    N -- "Promote (naik) jika stabil" --> K
+    N -- "Rollback jika tidak stabil" --> J
 ```
 
-
-The diagram can be rendered in VSCode Markdown preview, GitHub Markdown, or Mermaid Live Editor.
+Diagram ini dapat dirender menggunakan VSCode Markdown preview, GitHub Markdown, atau Mermaid Live Editor.

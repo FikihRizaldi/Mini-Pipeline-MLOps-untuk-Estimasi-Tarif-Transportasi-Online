@@ -1,36 +1,36 @@
 # Local Fare Estimation API
 
-This folder contains a simple FastAPI skeleton for the MLOps mini project. It is only a local learning simulation and is not a real production pricing system.
+Folder ini berisi skeleton API lokal FastAPI. Ini simulasi pembelajaran, bukan pricing system produksi.
 
-## Install Dependencies
+## Install Library
 
 ```bash
 pip install fastapi uvicorn joblib pandas scikit-learn
 ```
 
-## Run Locally
+## Jalankan Lokal
 
-From the project root, run:
+Jalankan dari root folder:
 
 ```bash
 uvicorn api.app:app --reload
 ```
 
-Then open:
+Lalu buka:
 
 ```text
 http://127.0.0.1:8000/
 ```
 
-## Example Request
+## Contoh Request
 
-Send a `POST` request to:
+Kirim request `POST` ke:
 
 ```text
 http://127.0.0.1:8000/predict
 ```
 
-Example body:
+Contoh body:
 
 ```json
 {
@@ -43,9 +43,9 @@ Example body:
 }
 ```
 
-The same example is saved in `api/request_example.json`.
+Contoh yang sama ada di `api/request_example.json`.
 
-## Example Response
+## Contoh Response
 
 ```json
 {
@@ -55,13 +55,13 @@ The same example is saved in `api/request_example.json`.
 }
 ```
 
-The exact estimated price can be different depending on the saved model artifact.
+Harga estimasi bisa beda tergantung versi model.
 
-## Limitations
+## Keterbatasan
 
-- This API is a local demonstration only.
-- It does not deploy to cloud services.
-- It does not use `surge_multiplier` in the main endpoint.
-- It does not require `price` as input because `price` is the prediction target.
-- It does not merge weather data yet.
-- It should not be used to determine real prices for any transportation platform.
+- API ini hanya demo lokal.
+- Tidak di-deploy ke cloud.
+- Tidak pakai `surge_multiplier`.
+- Tidak butuh `price` karena itu target.
+- Data cuaca belum digabung.
+- Tidak boleh dipakai untuk menentukan harga nyata.
